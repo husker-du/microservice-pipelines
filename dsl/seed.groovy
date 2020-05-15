@@ -1,5 +1,4 @@
 def createDeploymentJob(jobName, repoUrl) {
-    println "createDeploymentJob"
     pipelineJob(jobName) {
         definition {
             cpsScm {
@@ -21,10 +20,10 @@ def createDeploymentJob(jobName, repoUrl) {
 }
 
 def createTestJob(jobName, repoUrl) {
-    println "createTestJob"
     multibranchPipelineJob(jobName) {
         branchSources {
             git {
+                id('123456789') // IMPORTANT: use a constant and unique identifier
                 remote(repoUrl)
                 includes('*')
             }
@@ -40,10 +39,6 @@ def buildPipelineJobs() {
     def repoUrl = repo + jobName + ".git"
     def deployName = jobName + "_deploy"
     def testName = jobName + "_test"
-    
-    println repoUrl
-    println deployName
-    println testName
 
     createDeploymentJob(deployName, repoUrl)
     createTestJob(testName, repoUrl)
